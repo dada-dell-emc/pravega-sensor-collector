@@ -131,7 +131,7 @@ public class TransactionStateSQLiteImpl  implements AutoCloseable, TransactionSt
         }
 
     /**
-     * Delete record from PendingFiles table
+     * Delete record from PendingFiles table.
      *
      * @param  fileName         file name of pending file
      * @param beginOffset       begin offset from where file read starts
@@ -165,15 +165,17 @@ public class TransactionStateSQLiteImpl  implements AutoCloseable, TransactionSt
         addCompletedFileRecord(fileName, beginOffset, endOffset, newNextSequenceNumber, Optional.empty());
     }
 
-    /**
-     * Delete record from TransactionsToCommit table.
-     *
-     * @param  txnId transaction id
-     */
-    @Override
-    public void deleteTransactionToCommit(Optional<UUID> txnId) {
-        transactionCoordinator.deleteTransactionToCommit(txnId);
-    }
+        /**
+         * Delete record from TransactionsToCommit table.
+         *
+         * @param  txnId transaction id
+         */
+        @Override
+        public void deleteTransactionToCommit(Optional<UUID> txnId) {
+            if(transactionCoordinator!=null) {
+                transactionCoordinator.deleteTransactionToCommit(txnId);
+            }
+        }
 
     /**
      * Get a list of files from completedFiles table.
